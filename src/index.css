@@ -12,10 +12,6 @@ code {
     monospace;
 }
 
-.root{
-  min-height: 100%;
-
-}
-.root > .ant-layout{
-  height: 100%;
+#root,.ant-layout{
+  height: 100vh;
 }

@@ -1,53 +1,25 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+    HashRouter,
+    Switch,
+    Route,
 } from "react-router-dom";
 import Layout from './layout'
+import routeConfig from './Route'
 
-export default function BasicExample() {
-  return (
-      <Router>
-        <Layout>
-            <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/about">
-                    <About />
-                </Route>
-                <Route path="/dashboard">
-                    <Dashboard />
-                </Route>
-            </Switch>
-        </Layout>
-      </Router>
-  );
-}
-
-
-function Home() {
-  return (
-      <div>
-        <h2>Home</h2>
-      </div>
-  );
-}
-
-function About() {
-  return (
-      <div>
-        <h2>About</h2>
-      </div>
-  );
-}
-
-function Dashboard() {
-  return (
-      <div>
-        <h2>Dashboard</h2>
-      </div>
-  );
+export default function App() {
+    return (
+        <HashRouter>
+            <Layout>
+                <Switch>
+                    {
+                        routeConfig.map(item => <Route key={item.path}
+                                                       exact
+                                                       path={item.path}
+                                                       render={props => (<item.component  {...props} />)}/>)
+                    }
+                </Switch>
+            </Layout>
+        </HashRouter>
+    );
 }
