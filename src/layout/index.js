@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Layout, Menu, Breadcrumb, Card} from 'antd';
 import {Link} from 'react-router-dom'
-import 'antd/dist/antd.compact.css';
+import 'antd/dist/antd.css';
 import Header from "./Header";
 import routeConfig from '../Route'
 
@@ -22,7 +22,13 @@ class Structure extends Component {
                         >
                             {/*<SubMenu key="sub1" icon={<UserOutlined/>} title="subnav 1">*/}
                             {
-                                routeConfig.map(item=><Menu.Item key={item.path}> <Link to={item.path}>{item.name}</Link></Menu.Item>)
+                                routeConfig.map(item => {
+                                    if (!item.hidden) {
+                                        return <Menu.Item key={item.path}> <Link
+                                            to={item.path}>{item.name}</Link></Menu.Item>
+                                    }
+
+                                })
                             }
 
 
