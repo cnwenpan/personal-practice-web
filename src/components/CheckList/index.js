@@ -11,7 +11,6 @@ class CheckList extends Component {
                     <div>指标</div>
                     <div>耗时</div>
                     <div>日记</div>
-
                 </div>
                 <div className="check_list_body">
                     <div><Checkbox>任务一</Checkbox></div>

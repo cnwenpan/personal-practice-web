@@ -2,6 +2,7 @@ import Home from '@/pages/Home'
 import Program from "@/pages/Program";
 import ProgramEdit from '@/pages/ProgramEdit'
 
+
 const routes = [
     {
         path: '/home',
@@ -19,6 +20,7 @@ const routes = [
         hidden:true,
         component: ProgramEdit
     },
+
 ]
 
 export default routes
