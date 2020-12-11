@@ -7368,6 +7368,11 @@
     "import-local" "^3.0.2"
     "jest-cli" "^26.6.0"
 
+"js-cookie@^2.2.1":
+  "integrity" "sha1-aeEG3F1YBolFYpAqpbrsN0Tpsrg="
+  "resolved" "https://registry.npm.taobao.org/js-cookie/download/js-cookie-2.2.1.tgz"
+  "version" "2.2.1"
+
 "js-tokens@^3.0.0 || ^4.0.0", "js-tokens@^4.0.0":
   "integrity" "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
   "resolved" "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz"

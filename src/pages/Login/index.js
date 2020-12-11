@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input,Button} from 'antd'
+import md5 from 'md5'
+import Api from './api'
 import './index.less'
 
 const layout = {
@@ -20,6 +22,19 @@ class Login extends Component {
             pathname:'/register',
         })
     }
+
+    handleLogin=()=>{
+        this.formRef.current.validateFields().then(values=>{
+            const password=md5(values.password);
+            Api.login({...values,password}).then(()=>{
+                const {history}=this.props;
+                history.push({
+                    pathname:'/home'
+                })
+            })
+        }).catch()
+    }
+
     render() {
         return (
             <div className="login_container">
@@ -27,7 +42,7 @@ class Login extends Component {
                     <div className="login_title"><span style={{fontWeight:'bold'}}>管理自己</span>-登录</div>
                     <Form {...layout} ref={this.formRef} name="control-ref">
                         <Form.Item
-                            name="name"
+                            name="account"
                             label="用户名"
                             rules={[
                                 {
@@ -52,7 +67,7 @@ class Login extends Component {
                     </Form>
                     <div className="login_operate">
                         <Button type="dashed" onClick={this.handleToRegister}>注册</Button>
-                        <Button type="primary">登录</Button>
+                        <Button type="primary" onClick={this.handleLogin}>登录</Button>
                     </div>
                 </div>
             </div>

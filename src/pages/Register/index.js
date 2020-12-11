@@ -5,7 +5,6 @@ import md5 from 'md5'
 import Api from './api'
 import './index.less'
 
-
 const layout = {
     labelCol: {
         span: 4,
@@ -28,8 +27,8 @@ class Register extends Component {
 
     handleSave = () => {
         this.formRef.current.validateFields().then(values => {
-            const password=md5(values.password)
-            Api.register({...values,password}).then(res => {
+            const password = md5(values.password)
+            Api.register({...values, password}).then(res => {
 
             }).catch(e => {
                 return Promise.reject(e)
@@ -76,9 +75,9 @@ class Register extends Component {
                                     required: true,
                                 },
                                 {
-                                    validator: (_, value) =>{
-                                        const originPassword=this.formRef.current.getFieldValue('password');
-                                        return value===originPassword ? Promise.resolve() : Promise.reject('密码不一致')
+                                    validator: (_, value) => {
+                                        const originPassword = this.formRef.current.getFieldValue('password');
+                                        return value === originPassword ? Promise.resolve() : Promise.reject('密码不一致')
                                     }
                                 },
                             ]}

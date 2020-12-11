@@ -13,16 +13,20 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    const {success,msg,data}=response.data;
-    if(!success){
+    const {success, msg = '成功', data, code} = response.data;
+    if (!success) {
         message.info(msg)
+        if (code === 1001) {
+            window.location.href = '/#/login'
+        }
         return Promise.reject(response.data)
-    }else{
+    } else {
         message.success(msg)
         return data;
     }
 
 }, function (error) {
+    message.error(error.toString())
     // 对响应错误做点什么
     return Promise.reject(error);
 });

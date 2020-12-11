@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,createContext} from 'react';
 import {Layout, Menu, Breadcrumb, Card} from 'antd';
 import {Link} from 'react-router-dom'
 import 'antd/dist/antd.css';
@@ -8,7 +8,9 @@ import routeConfig from '../Route'
 const {Content, Sider} = Layout;
 
 class Structure extends Component {
+
     render() {
+
         return (
             <Layout>
                 <Header/>
