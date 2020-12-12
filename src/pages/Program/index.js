@@ -114,7 +114,7 @@ class Program extends Component {
         const {history} = this.props;
         history.push({
             pathname: '/program_edit',
-            state: {...row}
+            state: row
         })
 
     }

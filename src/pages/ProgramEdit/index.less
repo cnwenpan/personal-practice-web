@@ -1,28 +1,36 @@
 .edit_container{
   .edit_left{
     float: left;
-    width: 600px;
+    width: 640px;
   }
   .edit_right{
     //float: left;
     width: 100%;
-    margin-left:610px;
+    padding-left:650px;
     .ant-table-wrapper{
       clear: none !important;
     }
   }
   .landmask{
     position: absolute;
-    width: 300px;
+    width: 430px;
     top: 6px;
-    right: -350px;
+    right: -480px;
+    padding: 4px;
     .line{
       position:absolute ;
-      width: 50px;
+      width: 54px;
       height: 1px;
       background-color: #9ea6b6;
       left: -50px;
-      top: 16px;
+      top: 20px;
     }
+    &:hover{
+      border: 1px solid #c6d6f6;
+    }
+
+  }
+  .selected{
+    border: 1px solid #c6d6f6;
   }
 }
