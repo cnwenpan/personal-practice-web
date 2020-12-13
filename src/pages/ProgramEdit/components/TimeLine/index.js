@@ -5,14 +5,18 @@ import './index.less'
 
 class TimeLine extends Component {
     render() {
-        const {data,afterSlot=()=>{}} = this.props;
+        const {
+            data, afterSlot = () => {
+            }
+        } = this.props;
         return (
             <div className="time_line_container">
                 {
                     data.map((item, index) => {
-                        return <div key={index} className={classnames('time_line_item',{high:item.type==='landmasks'},{task:item.type!=='landmasks'})}>
-                            <Block  {...item} />
-                            {afterSlot(item,index)}
+                        return <div key={index}
+                                    className={classnames('time_line_item', {high: item.type === 'landmarks'}, {task: item.type !== 'landmarks'})}>
+                            {item.type === 'landmarks' && <Block  {...item} />}
+                            {afterSlot(item, index)}
                         </div>
                     })
                 }

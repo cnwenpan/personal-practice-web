@@ -11,8 +11,8 @@ import './index.less'
 class ProgramEdit extends Component {
     state = {
         data: [],
-        landMarksSelectedIndex:0,
-        currentLandMark:null
+        landMarksSelectedIndex: 0,
+        currentLandMark: null
     }
 
     componentDidMount() {
@@ -27,10 +27,10 @@ class ProgramEdit extends Component {
             return
         }
         Api.landMaskList({programId: state.id}).then(res => {
-            const data=res.map(item => ({...item, type: 'landmasks'}))
+            const data = res
             this.setState({
                 data: data,
-                currentLandMark:data[0]
+                currentLandMark: data[0]
 
             })
         })
@@ -58,11 +58,11 @@ class ProgramEdit extends Component {
 
     handleSave = (row) => {
         const {state} = this.props.location;
-        if(row.id===2){
+        if (row.id === 2) {
             Api.landMaskAdd({...row, programId: state.id}).then(res => {
                 this.queryLandMasks()
             })
-        }else{
+        } else {
             Api.landMaskUpdate({...row}).then(res => {
                 this.queryLandMasks()
             })
@@ -92,15 +92,15 @@ class ProgramEdit extends Component {
 
     renderLandmask = (row, index) => {
         const {landMarksSelectedIndex} = this.state;
-        return row.type === 'landmasks' &&
+        return row.type === 'landmarks' &&
             <div
                 onClick={() => {
                     this.setState({
                         landMarksSelectedIndex: index,
-                        currentLandMark:row
+                        currentLandMark: row
                     })
                 }}
-                className={classnames('landmask', {'selected': landMarksSelectedIndex===index})}
+                className={classnames('landmask', {'selected': landMarksSelectedIndex === index})}
             >
 
                 <Input
@@ -136,7 +136,7 @@ class ProgramEdit extends Component {
     }
 
     render() {
-        const {data,currentLandMark} = this.state;
+        const {data, currentLandMark} = this.state;
         return (
             <div className="edit_container">
                 <div className="edit_left">
@@ -147,7 +147,7 @@ class ProgramEdit extends Component {
                 </div>
                 <div className="edit_right">
                     <Card>
-                        <TaskEdit landMark={currentLandMark}/>
+                        {currentLandMark && <TaskEdit landMark={currentLandMark} onSuccess={this.queryLandMasks} />}
                     </Card>
                 </div>
             </div>

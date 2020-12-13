@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Switch, Space, Table, Form, Input, Modal, DatePicker} from 'antd'
 import moment from "moment";
+import Api from '../../api'
 
 const layout = {
     labelCol: {
@@ -24,19 +25,22 @@ class TaskEdit extends Component {
         },
         {
             title: '指标',
-            dataIndex: 'level'
+            dataIndex: 'targets'
         },
         {
             title: '是否重复',
-            dataIndex: 'progress'
+            dataIndex: 'is_repeat'
         },
         {
             title: '时间',
-            dataIndex: 'endTime'
+            dataIndex: 'start_time',
+            render: (value, row) => {
+                return moment(value).format('YYYY-MM-DD hh:mm:ss/')
+            }
         },
         {
-            title: '备注',
-            dataIndex: 'landMasks'
+            title: '描述',
+            dataIndex: 'description'
         },
         {
             title: '操作',
@@ -46,16 +50,68 @@ class TaskEdit extends Component {
                     <Button type="dashed" onClick={() => {
                         this.handleEdit(row)
                     }}>编辑</Button>
-                    <Button type="primary" onClick={() => {
-                        this.handleToTaskEdit(row)
-                    }}>启动</Button>
-                    <Button type="danger">删除</Button>
+                    {/*<Button type="primary" onClick={() => {*/}
+                    {/*    this.handleToTaskEdit(row)*/}
+                    {/*}}>启动</Button>*/}
+                    <Button type="danger" onClick={() => {
+                        this.handleDel(row)
+                    }}>删除</Button>
                 </Space>
             }
         }
     ]
 
+    componentDidMount() {
+        this.query()
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.query(nextProps)
+    }
+
+    handleDel = (row) => {
+        Api.taskDel({id: row.id}).then(res => {
+            this.query()
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+
+    query(nextProps) {
+        const {landMark} = nextProps||this.props
+        Api.taskList({landMarkId: landMark.id}).then(res => {
+            this.setState({
+                data: res
+            })
+        })
+    }
+
     handleSave = () => {
+        const {landMark,onSuccess} = this.props;
+        const {current} = this.state;
+        this.formRef.current.validateFields().then(values => {
+            if (current.id) {
+                Api.taskUpdate({...current, ...values}).then(res => {
+                    this.query()
+                    onSuccess()
+                    this.setState({
+                        visible:false
+                    })
+                })
+            } else {
+                Api.taskAdd({...values, landMarkId: landMark.id}).then(res => {
+                    this.query()
+                    onSuccess()
+                    this.setState({
+                        visible:false
+                    })
+                })
+
+            }
+
+        }).catch(e => {
+            console.log(e)
+        })
 
     }
 
@@ -66,8 +122,8 @@ class TaskEdit extends Component {
         }, () => {
             this.formRef.current.setFieldsValue({
                 name: row.name,
-                starTime: moment(row.start_time),
-                repeat: row.repeat,
+                startTime: moment(row.start_time),
+                repeat: Boolean(row.is_repeat),
                 targets: row.targets,
                 description: row.description
             })
@@ -88,10 +144,10 @@ class TaskEdit extends Component {
                 <Modal
                     title="任务编辑"
                     visible={visible}
-                       onCancel={() => {
-                           this.setState({visible: false})
-                       }}
-                       onOk={this.handleSave}
+                    onCancel={() => {
+                        this.setState({visible: false})
+                    }}
+                    onOk={this.handleSave}
                 >
                     <Form {...layout} ref={this.formRef} name="control-ref">
                         <Form.Item
@@ -106,7 +162,7 @@ class TaskEdit extends Component {
                             <Input/>
                         </Form.Item>
                         <Form.Item
-                            name="starTime"
+                            name="startTime"
                             label="时间"
                             rules={[
                                 {
@@ -119,11 +175,11 @@ class TaskEdit extends Component {
                         <Form.Item
                             name="repeat"
                             label="是否重复"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //     },
+                            // ]}
                         >
                             <Switch/>
                         </Form.Item>
