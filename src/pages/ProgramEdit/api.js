@@ -22,6 +22,9 @@ const api = {
     },
     taskDel(data){
         return axios.post(`${host}/task/del`, data)
+    },
+    taskUpdateStatus(data){
+        return axios.post(`${host}/task/updateStatus`, data)
     }
 }
 export default api;

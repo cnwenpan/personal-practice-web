@@ -38,14 +38,13 @@ class ProgramEdit extends Component {
 
 
     handleAdd = (row) => {
-
         const {data} = this.state;
         data.push({
             id: 2,
             name: '',
             endTime: moment(new Date()),
             status: 1,
-            type: 'landmasks'
+            type: 'landmarks'
         })
         this.setState({
             data
@@ -58,6 +57,7 @@ class ProgramEdit extends Component {
 
     handleSave = (row) => {
         const {state} = this.props.location;
+        row.endTime = moment(row.endTime).format('YYYY-MM-DD hh:mm:ss')
         if (row.id === 2) {
             Api.landMaskAdd({...row, programId: state.id}).then(res => {
                 this.queryLandMasks()
@@ -77,7 +77,7 @@ class ProgramEdit extends Component {
                 name: '',
                 endTime: moment(new Date()),
                 status: 1,
-                type: 'landmasks'
+                type: 'landmarks'
             },]
         })
     }
@@ -147,7 +147,7 @@ class ProgramEdit extends Component {
                 </div>
                 <div className="edit_right">
                     <Card>
-                        {currentLandMark && <TaskEdit landMark={currentLandMark} onSuccess={this.queryLandMasks} />}
+                        {currentLandMark && <TaskEdit landMark={currentLandMark} onSuccess={this.queryLandMasks}/>}
                     </Card>
                 </div>
             </div>

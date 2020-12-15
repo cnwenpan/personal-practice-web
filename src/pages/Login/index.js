@@ -39,7 +39,7 @@ class Login extends Component {
         return (
             <div className="login_container">
                 <div className="login_content">
-                    <div className="login_title"><span style={{fontWeight:'bold'}}>管理自己</span>-登录</div>
+                    <div className="login_title"><span style={{fontWeight:'bold'}}>修炼自己</span>-登录</div>
                     <Form {...layout} ref={this.formRef} name="control-ref">
                         <Form.Item
                             name="account"

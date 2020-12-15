@@ -42,7 +42,7 @@ class Register extends Component {
         return (
             <div className="register_container">
                 <div className="register_content">
-                    <div className="register_title"><span style={{fontWeight: 'bold'}}>管理自己</span>-注册</div>
+                    <div className="register_title"><span style={{fontWeight: 'bold'}}>修炼自己</span>-注册</div>
                     <Form {...layout} ref={this.formRef} name="control-ref">
                         <Form.Item
                             name="account"

@@ -13,7 +13,7 @@ class TimeLine extends Component {
             <div className="time_line_container">
                 {
                     data.map((item, index) => {
-                        return <div key={index}
+                        return <div key={item.id}
                                     className={classnames('time_line_item', {high: item.type === 'landmarks'}, {task: item.type !== 'landmarks'})}>
                             {item.type === 'landmarks' && <Block  {...item} />}
                             {afterSlot(item, index)}

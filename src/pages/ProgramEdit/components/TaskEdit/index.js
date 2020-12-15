@@ -5,7 +5,7 @@ import Api from '../../api'
 
 const layout = {
     labelCol: {
-        span: 4,
+        span: 6,
     },
     wrapperCol: {
         span: 16,
@@ -29,7 +29,10 @@ class TaskEdit extends Component {
         },
         {
             title: '是否重复',
-            dataIndex: 'is_repeat'
+            dataIndex: 'is_repeat',
+            render: (value, row) => {
+                return value ? '是' : '否'
+            }
         },
         {
             title: '时间',
@@ -66,7 +69,10 @@ class TaskEdit extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.query(nextProps)
+        if (nextProps.landMark.id !== this.props.landMark.id) {
+            this.query(nextProps)
+        }
+
     }
 
     handleDel = (row) => {
@@ -78,7 +84,7 @@ class TaskEdit extends Component {
     }
 
     query(nextProps) {
-        const {landMark} = nextProps||this.props
+        const {landMark} = nextProps || this.props
         Api.taskList({landMarkId: landMark.id}).then(res => {
             this.setState({
                 data: res
@@ -87,7 +93,7 @@ class TaskEdit extends Component {
     }
 
     handleSave = () => {
-        const {landMark,onSuccess} = this.props;
+        const {landMark, onSuccess} = this.props;
         const {current} = this.state;
         this.formRef.current.validateFields().then(values => {
             if (current.id) {
@@ -95,7 +101,7 @@ class TaskEdit extends Component {
                     this.query()
                     onSuccess()
                     this.setState({
-                        visible:false
+                        visible: false
                     })
                 })
             } else {
@@ -103,7 +109,7 @@ class TaskEdit extends Component {
                     this.query()
                     onSuccess()
                     this.setState({
-                        visible:false
+                        visible: false
                     })
                 })
 
@@ -183,6 +189,18 @@ class TaskEdit extends Component {
                         >
                             <Switch/>
                         </Form.Item>
+                        <Form.Item
+                            name="time_of_day"
+                            label="单日耗时(分)"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Input/>
+                        </Form.Item>
+
                         <Form.Item
                             name="targets"
                             label="指标"
