@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Checkbox, Button, Input, Modal, Badge} from "antd";
+import {Checkbox, Input, Modal} from "antd";
 import classnames from 'classnames'
 import Api from '@/pages/ProgramEdit/api'
 import './index.less'
@@ -25,6 +25,10 @@ class CheckList extends Component {
         Api.taskUpdateStatus({taskId: row.id, status: Number(value)}).then(res => {
             onRefresh()
         })
+    }
+
+    handleSave=()=>{
+
     }
 
     render() {
@@ -55,12 +59,14 @@ class CheckList extends Component {
                             <div className="check_list_body_level">{item.level}</div>
                             <div>{item.targets}</div>
                             <div>{item.time_of_day || 0} 分钟</div>
-                            <div><a onClick={() => {
-                                this.handleOpenRecord(item)
-                            }}>日记
-
-
-                            </a><Badge count={!!item.diaryText ? 1 : 0}/></div>
+                            <div>
+                                <a onClick={() => {
+                                    this.handleOpenRecord(item)
+                                }}>
+                                    日记
+                                </a>
+                                <span className="check_list_body_diary_count">{!!item.diaryText ? 1 : 0}</span>
+                            </div>
                         </div>
                     )
                 })}
@@ -71,6 +77,7 @@ class CheckList extends Component {
                     }}
                     maskClosable={false}
                     closeIcon={' '}
+                    onOk={this.handleSave}
                     // title="写日记"
                 >
                     <div className="check_list_body_diary_title">

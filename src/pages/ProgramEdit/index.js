@@ -30,7 +30,8 @@ class ProgramEdit extends Component {
             const data = res
             this.setState({
                 data: data,
-                currentLandMark: data[0]
+                currentLandMark: data.map(item=>item.type==='landmarks')[0],
+                landMarksSelectedIndex:data.findIndex(item=>item.type==='landmarks')
 
             })
         })

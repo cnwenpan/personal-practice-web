@@ -97,7 +97,7 @@ class TaskEdit extends Component {
         const {current} = this.state;
         this.formRef.current.validateFields().then(values => {
             if (current.id) {
-                Api.taskUpdate({...current, ...values}).then(res => {
+                Api.taskUpdate({...current, ...values,programId:landMark.program_id}).then(res => {
                     this.query()
                     onSuccess()
                     this.setState({
@@ -129,8 +129,9 @@ class TaskEdit extends Component {
             this.formRef.current.setFieldsValue({
                 name: row.name,
                 startTime: moment(row.start_time),
-                repeat: Boolean(row.is_repeat),
+                repeat: !!row.is_repeat,
                 targets: row.targets,
+                time_of_day:row.time_of_day,
                 description: row.description
             })
         })
@@ -179,6 +180,7 @@ class TaskEdit extends Component {
                             <DatePicker/>
                         </Form.Item>
                         <Form.Item
+                            valuePropName="checked"
                             name="repeat"
                             label="是否重复"
                             // rules={[
@@ -187,7 +189,7 @@ class TaskEdit extends Component {
                             //     },
                             // ]}
                         >
-                            <Switch/>
+                            <Switch />
                         </Form.Item>
                         <Form.Item
                             name="time_of_day"
