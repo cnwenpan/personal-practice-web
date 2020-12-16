@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1b9f1008-d891-4743-a287-9cfd494c6797" name="公司虚拟机http://10.147.20.228/">
+        <fileTransfer rootFolder="/data/mystack/sites/personal/www" accessType="SFTP" host="10.147.20.228" port="22" sshConfigId="afdb7556-14f3-4172-b9ba-1499326f2337" sshConfig="root@10.147.20.228:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
