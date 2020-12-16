@@ -1,7 +1,7 @@
 import Home from '@/pages/Home'
 import Program from "@/pages/Program";
 import ProgramEdit from '@/pages/ProgramEdit'
-
+import Diary from '@/pages/Diary'
 
 const routes = [
     {
@@ -19,6 +19,12 @@ const routes = [
         name: '项目列表',
         hidden:true,
         component: ProgramEdit
+    },
+    {
+        path: '/diary',
+        name: '日记清单',
+        hidden:false,
+        component: Diary
     },
 
 ]

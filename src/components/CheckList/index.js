@@ -2,10 +2,14 @@ import React, {Component} from 'react';
 import {Checkbox, Input, Modal} from "antd";
 import classnames from 'classnames'
 import Api from '@/pages/ProgramEdit/api'
+import DiaryApi from '@/pages/Diary/api'
+import E from 'wangeditor'
+
 import './index.less'
 
 class CheckList extends Component {
-
+    richTextRef = null;
+    richText = null;
     state = {
         current: {},
         visible: false
@@ -15,8 +19,20 @@ class CheckList extends Component {
         this.setState({
             current: row,
             visible: true
-
-        })
+        },
+        //     () => {
+        //
+        //     if (!this.richText) {
+        //         this.richText = new E(this.richTextRef);
+        //         this.richText.config.onchange = this.handleDiaryChange
+        //         this.richText.create()
+        //
+        //     }
+        //
+        //     this.richText.txt.html(row.diaryText)
+        //
+        // }
+        )
     }
 
     handleStatusChange = (e, row) => {
@@ -28,7 +44,25 @@ class CheckList extends Component {
     }
 
     handleSave = () => {
+        const {current} = this.state;
+        if (current.diaryId) {
+            DiaryApi.update({id: current.diaryId, data: current.diaryText}).then(res => {
 
+            })
+        } else {
+            DiaryApi.add({taskId: current.id, data: current.diaryText}).then(res => {
+
+            })
+        }
+
+    }
+    handleDiaryChange = (e) => {
+        const value=e.target.value
+        const {current} = this.state;
+        current.diaryText =value
+        this.setState({
+            current
+        })
     }
 
     render() {
@@ -74,6 +108,7 @@ class CheckList extends Component {
                 <Modal
                     visible={visible}
                     onCancel={() => {
+
                         this.setState({visible: false})
                     }}
                     maskClosable={false}
@@ -86,7 +121,11 @@ class CheckList extends Component {
                         <span>里程碑：</span><span>{current.landMarkName}</span>
                         <span>任务：</span><span>{current.name}</span>
                     </div>
-                    <Input.TextArea autoSize={{minRows: 10}}/>
+                    <Input.TextArea value={current.diaryText} onChange={this.handleDiaryChange}
+                                    autoSize={{minRows: 10}}/>
+                    {/*<div ref={ref => this.richTextRef = ref}>*/}
+
+                    {/*</div>*/}
                 </Modal>
             </div>
 
