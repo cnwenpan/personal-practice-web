@@ -27,7 +27,7 @@ class CheckList extends Component {
         })
     }
 
-    handleSave=()=>{
+    handleSave = () => {
 
     }
 
@@ -56,7 +56,8 @@ class CheckList extends Component {
                                     {item.name}-<span style={{color: '#bfbdbd'}}>{item.programName}</span>
                                 </Checkbox>
                             </div>
-                            <div className="check_list_body_level">{item.level}</div>
+
+                            <div className="check_list_body_level">{item.level.toUpperCase()}</div>
                             <div>{item.targets}</div>
                             <div>{item.time_of_day || 0} 分钟</div>
                             <div>

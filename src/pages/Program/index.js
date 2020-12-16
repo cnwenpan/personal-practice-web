@@ -74,7 +74,9 @@ class Program extends Component {
                     <Button type="primary" onClick={() => {
                         this.handleToTaskEdit(row)
                     }}>任务</Button>
-                    <Button type="danger">删除</Button>
+                    <Button type="danger" onClick={()=>{
+                        this.handleDel(row)
+                    }}>删除</Button>
                 </Space>
             }
         }
@@ -154,6 +156,18 @@ class Program extends Component {
         // }else{
         //     return 'program_waiting'
         // }
+    }
+
+    handleDel=(row)=>{
+        Modal.confirm({
+            content:'项目下所有的任务都将被删除~',
+            onOk:()=>{
+                Api.del({id:row.id}).then(res=>{
+                    this.query()
+                })
+            }
+        })
+
     }
 
     render() {

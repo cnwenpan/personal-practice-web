@@ -97,7 +97,7 @@ class TaskEdit extends Component {
         const {current} = this.state;
         this.formRef.current.validateFields().then(values => {
             if (current.id) {
-                Api.taskUpdate({...current, ...values,programId:landMark.program_id}).then(res => {
+                Api.taskUpdate({...current, ...values}).then(res => {
                     this.query()
                     onSuccess()
                     this.setState({
@@ -105,7 +105,7 @@ class TaskEdit extends Component {
                     })
                 })
             } else {
-                Api.taskAdd({...values, landMarkId: landMark.id}).then(res => {
+                Api.taskAdd({...values, landMarkId: landMark.id,programId:landMark.program_id}).then(res => {
                     this.query()
                     onSuccess()
                     this.setState({

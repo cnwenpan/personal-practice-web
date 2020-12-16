@@ -13,6 +13,9 @@ const api = {
     },
     startUp(data) {
         return axios.post(`${host}/program/startUp`, data)
+    },
+    del(data) {
+        return axios.post(`${host}/program/del`, data)
     }
 }
 export default api;

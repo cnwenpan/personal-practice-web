@@ -20,18 +20,19 @@ class ProgramEdit extends Component {
     }
 
     queryLandMasks = () => {
+        const {landMarksSelectedIndex, currentLandMark} = this.state;
         const {state} = this.props.location;
-        console.log(state)
         if (!state) {
             this.props.history.push({pathname: '/program'})
             return
         }
         Api.landMaskList({programId: state.id}).then(res => {
             const data = res
+            console.log(data.map(item => item.type === 'landmarks'))
             this.setState({
                 data: data,
-                currentLandMark: data.map(item=>item.type==='landmarks')[0],
-                landMarksSelectedIndex:data.findIndex(item=>item.type==='landmarks')
+                currentLandMark: landMarksSelectedIndex === 0 ? data.filter(item => item.type === 'landmarks')[0] : currentLandMark,
+                landMarksSelectedIndex: landMarksSelectedIndex === 0 ? data.findIndex(item => item.type === 'landmarks') : landMarksSelectedIndex
 
             })
         })
