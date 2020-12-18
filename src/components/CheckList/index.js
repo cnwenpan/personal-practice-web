@@ -3,7 +3,6 @@ import {Checkbox, Input, Modal} from "antd";
 import classnames from 'classnames'
 import Api from '@/pages/ProgramEdit/api'
 import DiaryApi from '@/pages/Diary/api'
-import E from 'wangeditor'
 
 import './index.less'
 

@@ -4,12 +4,27 @@ import cookies from 'js-cookie'
 import './index.less'
 
 class Header extends Component {
+    state = {
+        user: {}
+    }
     handleLogout = () => {
         cookies.remove('token');
         window.location.href = '/#/login'
     }
 
+    componentDidMount() {
+        try {
+            const user = JSON.parse(cookies.get('user'))
+            this.setState({
+                user
+            })
+        } catch (e) {
+
+        }
+    }
+
     render() {
+        const {user}=this.state;
         const menu = (
             <Menu>
                 <Menu.Item key="0">
@@ -26,7 +41,7 @@ class Header extends Component {
 
                 <div className="header_user_info">
                     <Dropdown arrow overlay={menu}>
-                        <span>温攀</span>
+                        <span>{user.name}</span>
                     </Dropdown>
                 </div>
                 <div style={{clear: 'both'}}/>
