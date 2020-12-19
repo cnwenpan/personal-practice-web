@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input,Button} from 'antd'
 import md5 from 'md5'
+import cookies from 'js-cookie'
 import Api from './api'
 import './index.less'
 
@@ -26,7 +27,8 @@ class Login extends Component {
     handleLogin=()=>{
         this.formRef.current.validateFields().then(values=>{
             const password=md5(values.password);
-            Api.login({...values,password}).then(()=>{
+            Api.login({...values,password}).then((res)=>{
+                cookies.set('user',JSON.stringify(res))
                 const {history}=this.props;
                 history.push({
                     pathname:'/home'

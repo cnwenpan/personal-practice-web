@@ -25,7 +25,7 @@ class Home extends Component {
 
     render() {
         const {data} = this.state;
-        const unDoTaskList = data.filter(item => item.status === 0);
+        const unDoTaskList = data.filter(item => !item.status);
         let restTime = 0;
         unDoTaskList.forEach(item => {
             restTime = restTime + item.time_of_day
