@@ -3,7 +3,6 @@ import {Checkbox, Input, Modal} from "antd";
 import classnames from 'classnames'
 import Api from '@/pages/ProgramEdit/api'
 import DiaryApi from '@/pages/Diary/api'
-import E from 'wangeditor'
 
 import './index.less'
 
@@ -17,28 +16,27 @@ class CheckList extends Component {
 
     handleOpenRecord = (row) => {
         this.setState({
-            current: row,
-            visible: true
-        },
-        //     () => {
-        //
-        //     if (!this.richText) {
-        //         this.richText = new E(this.richTextRef);
-        //         this.richText.config.onchange = this.handleDiaryChange
-        //         this.richText.create()
-        //
-        //     }
-        //
-        //     this.richText.txt.html(row.diaryText)
-        //
-        // }
+                current: row,
+                visible: true
+            },
+            //     () => {
+            //
+            //     if (!this.richText) {
+            //         this.richText = new E(this.richTextRef);
+            //         this.richText.config.onchange = this.handleDiaryChange
+            //         this.richText.create()
+            //
+            //     }
+            //
+            //     this.richText.txt.html(row.diaryText)
+            //
+            // }
         )
     }
 
     handleStatusChange = (e, row) => {
-        const value = e.target.checked
         const {onRefresh} = this.props;
-        Api.taskUpdateStatus({taskId: row.id, status: Number(value)}).then(res => {
+        Api.taskUpdateStatus({recordId: row.id}).then(res => {
             onRefresh()
         })
     }
@@ -54,12 +52,11 @@ class CheckList extends Component {
 
             })
         }
-
     }
     handleDiaryChange = (e) => {
-        const value=e.target.value
+        const value = e.target.value
         const {current} = this.state;
-        current.diaryText =value
+        current.diaryText = value
         this.setState({
             current
         })
@@ -68,8 +65,8 @@ class CheckList extends Component {
     render() {
         const {current, visible} = this.state;
         const {data} = this.props;
-        const unDoList = data.filter(item => item.status === 0);
-        const doneList = data.filter(item => item.status === 1);
+        const unDoList = data.filter(item => item.status === null);
+        const doneList = data.filter(item => !!item.status);
         const result = [...unDoList, ...doneList]
         return (
             <div className="check_list">

@@ -32,9 +32,10 @@ class Diary extends Component {
                     dataSource={data}
                     renderItem={item => (
                         <div style={{
-                            padding: 10,
+                            padding:'0 10px',
                             backgroundColor: '#ffffff',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            marginBottom:10
                         }}>
                             <List.Item>
                                 <List.Item.Meta
