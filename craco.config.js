@@ -5,7 +5,7 @@ module.exports = {
     devServer:(devServerConfig)=>{
         return {...devServerConfig,...{
                 proxy: {
-                    '/api': 'http://localhost:2083'
+                    '/api': 'http://10.147.20.228:2083'
                 }
             }}
     },
