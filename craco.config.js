@@ -5,7 +5,7 @@ module.exports = {
     devServer:(devServerConfig)=>{
         return {...devServerConfig,...{
                 proxy: {
-                    '/api': 'http://10.147.20.228:2083'
+                    '/api': 'http://localhost:2083'
                 }
             }}
     },
@@ -15,7 +15,10 @@ module.exports = {
             options: {
                 lessLoaderOptions: {
                     lessOptions: {
-                        modifyVars: { '@primary-color': '#1DA57A' },
+                        modifyVars: {
+                            '@primary-color': '#1DA57A',
+                            '@font-size-base':'10px'
+                        },
                         javascriptEnabled: true,
                     },
                 },

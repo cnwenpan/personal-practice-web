@@ -7,7 +7,8 @@ import Api from './api'
 
 class Home extends Component {
     state = {
-        data: []
+        data: [],
+        unRepeatData:[]
     }
 
     componentDidMount() {
@@ -18,13 +19,14 @@ class Home extends Component {
 
         Api.today().then(res => {
             this.setState({
-                data: res
+                data: res.repeatResult,
+                unRepeatData:res.notRepeatResult
             })
         })
     }
 
     render() {
-        const {data} = this.state;
+        const {data,unRepeatData} = this.state;
         const unDoTaskList = data.filter(item => !item.status);
         let restTime = 0;
         unDoTaskList.forEach(item => {
@@ -33,7 +35,8 @@ class Home extends Component {
         return (
             <div>
                 <Card>
-                    <Row gutter={10}>
+                    <div style={{marginBottom:10,color:'#345753'}}>重复任务</div>
+                    <Row gutter={10} style={{marginBottom:10}}>
                         <Col>
                             <InfoBlock label="剩余时长" value={restTime}
                             />
@@ -42,10 +45,12 @@ class Home extends Component {
                             <InfoBlock label="剩余任务" value={unDoTaskList.length}/>
                         </Col>
                     </Row>
-                </Card>
-                <Card style={{marginTop: 20}}>
-                    <CheckList data={data} onRefresh={this.queryTodayTasks}/>
 
+                    <CheckList data={data} onRefresh={this.queryTodayTasks}/>
+                </Card>
+                <Card style={{marginTop:10}}>
+                    <div style={{marginBottom:10,color:'#345753'}}>不重复任务</div>
+                    <CheckList data={unRepeatData} type={1} onRefresh={this.queryTodayTasks}/>
                 </Card>
             </div>
         );
