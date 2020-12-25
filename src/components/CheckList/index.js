@@ -104,7 +104,11 @@ class CheckList extends Component {
                 </div>
                 {result && result.map(item => {
                     return (
-                        <div key={item.id} className={classnames('check_list_body', {'gray': !!item.status})}>
+                        <div key={item.id}
+                             className={classnames(
+                                 'check_list_body',
+                                 {'gray': !!item.status}
+                                 )}>
                             <div style={{width: 400}}>
                                 <Checkbox checked={!!item.status} onChange={(e) => {
                                     this.handleStatusChange(e, item)
@@ -132,7 +136,7 @@ class CheckList extends Component {
                             </div>}
                             {type !== 1 && <div>{item.time_of_day || 0} 分钟</div>}
                             {type === 1 &&
-                            <div style={{width: 200}}>{moment(item.start_time).format('YYYY-MM-DD')}</div>}
+                            <div className={classnames({'danger': type===1&&moment(item.start_time).isBefore(moment(new Date()))})} style={{width: 200}}>{moment(item.start_time).format('YYYY-MM-DD')}</div>}
                             <div>
                                 <a onClick={() => {
                                     this.handleOpenRecord(item)
@@ -170,16 +174,18 @@ class CheckList extends Component {
 
                     {/*</div>*/}
                 </Modal>
-                {focusVisible && <FocusModal onCancel={()=>{this.setState({
-                    focusVisible: false
-                })}}>
+                {focusVisible && <FocusModal onCancel={() => {
+                    this.setState({
+                        focusVisible: false
+                    })
+                }}>
                     <div style={
                         {
                             width: 600,
-                            borderRadius:10,
-                            padding:10,
+                            borderRadius: 10,
+                            padding: 10,
                             margin: '50px auto auto auto',
-                            backgroundColor:'#ffffff',
+                            backgroundColor: '#ffffff',
 
                         }
                     } dangerouslySetInnerHTML={{__html: current.description}}/>
