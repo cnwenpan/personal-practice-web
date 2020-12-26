@@ -45,7 +45,7 @@ class CheckList extends Component {
                 return
             }
         }
-        Api.taskUpdateStatus({recordId: row.id}).then(res => {
+        Api.taskUpdateStatus({recordId: row.id,isRepeat:row.is_repeat}).then(res => {
             onRefresh()
         })
     }

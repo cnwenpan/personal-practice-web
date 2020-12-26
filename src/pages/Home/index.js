@@ -12,6 +12,7 @@ class Home extends Component {
         data: [],
         unRepeatData: [],
         selectedTags: [],
+        doneSelectedTags: [],
         programs: []
 
 
@@ -22,27 +23,32 @@ class Home extends Component {
     }
 
     queryTodayTasks = () => {
-
-        Api.today().then(res => {
+        Promise.all([Api.repeatTask(), Api.noRepeatTask()]).then((res) => {
             this.setState({
-                data: res.repeatResult,
-                unRepeatData: res.notRepeatResult,
-                programs: [...new Set(res.notRepeatResult.map(item => item.programName))]
+                data: res[0],
+                unRepeatData: res[1],
+                programs: [...new Set(res[1].map(item => item.programName))]
             })
         })
     }
 
 
-    handleTagChange = (row, value) => {
-        const {selectedTags} = this.state;
-        const nextSelectedTags = value ? [...selectedTags, row] : selectedTags.filter(t => t !== row);
+    handleTagChange = (row, value, isDone) => {
+        const {selectedTags, doneSelectedTags} = this.state;
+        if (!isDone) {
+            const nextSelectedTags = value ? [...selectedTags, row] : selectedTags.filter(t => t !== row);
+            this.setState({selectedTags: nextSelectedTags});
+        } else {
+            const doneNextSelectedTags = value ? [...doneSelectedTags, row] : doneSelectedTags.filter(t => t !== row);
+            this.setState({doneSelectedTags: doneNextSelectedTags});
+        }
 
-        this.setState({selectedTags: nextSelectedTags});
+
     }
 
 
     render() {
-        const {data, unRepeatData, selectedTags, programs} = this.state;
+        const {data, unRepeatData, selectedTags, programs, doneSelectedTags} = this.state;
         const unDoTaskList = data.filter(item => !item.status);
         let restTime = 0;
         unDoTaskList.forEach(item => {
@@ -67,18 +73,35 @@ class Home extends Component {
                 <Card style={{marginTop: 10}}>
                     <div style={{marginBottom: 10, color: '#345753'}}>
 
-                        <span style={{marginRight:20}}>不重复任务</span>
+                        <span style={{marginRight: 20}}>不重复任务</span>
                         {programs.map(item => (<CheckableTag
                             key={item}
                             checked={selectedTags.indexOf(item) > -1}
-                            onChange={checked => this.handleTagChange(item, checked)}
+                            onChange={checked => this.handleTagChange(item, checked, false)}
                         >
                             {item}
                         </CheckableTag>))}
                     </div>
 
                     <CheckList
-                        data={selectedTags.length === 0 ? unRepeatData : unRepeatData.filter(item => selectedTags.indexOf(item.programName) > -1)}
+                        data={selectedTags.length === 0 ? unRepeatData.filter(item => item.status === null) : unRepeatData.filter(item => selectedTags.indexOf(item.programName) > -1 && item.status === null)}
+                        type={1} onRefresh={this.queryTodayTasks}/>
+                </Card>
+                <Card style={{marginTop: 10}}>
+                    <div style={{marginBottom: 10, color: '#345753'}}>
+
+                        <span style={{marginRight: 20}}>已完成的项目任务</span>
+                        {programs.map(item => (<CheckableTag
+                            key={item}
+                            checked={doneSelectedTags.indexOf(item) > -1}
+                            onChange={checked => this.handleTagChange(item, checked, true)}
+                        >
+                            {item}
+                        </CheckableTag>))}
+                    </div>
+
+                    <CheckList
+                        data={doneSelectedTags.length === 0 ? unRepeatData.filter(item => item.status !== null) : unRepeatData.filter(item => doneSelectedTags.indexOf(item.programName) > -1 && item.status !== null)}
                         type={1} onRefresh={this.queryTodayTasks}/>
                 </Card>
             </div>
