@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Switch, Space, Table, Form, Input, Modal, DatePicker} from 'antd'
 import moment from "moment";
+import RichText, {getHtml,toRich} from '@/components/RichText'
 import Api from '../../api'
 
 const layout = {
@@ -43,7 +44,10 @@ class TaskEdit extends Component {
         },
         {
             title: '描述',
-            dataIndex: 'description'
+            dataIndex: 'description',
+            render:(value,row)=>{
+                return <div dangerouslySetInnerHTML={{__html:value}} />
+            }
         },
         {
             title: '操作',
@@ -96,6 +100,7 @@ class TaskEdit extends Component {
         const {landMark, onSuccess} = this.props;
         const {current} = this.state;
         this.formRef.current.validateFields().then(values => {
+            values.description = getHtml(values.description)
             if (current.id) {
                 Api.taskUpdate({...current, ...values}).then(res => {
                     this.query()
@@ -105,7 +110,7 @@ class TaskEdit extends Component {
                     })
                 })
             } else {
-                Api.taskAdd({...values, landMarkId: landMark.id,programId:landMark.program_id}).then(res => {
+                Api.taskAdd({...values, landMarkId: landMark.id, programId: landMark.program_id}).then(res => {
                     this.query()
                     onSuccess()
                     this.setState({
@@ -131,8 +136,8 @@ class TaskEdit extends Component {
                 startTime: moment(row.start_time),
                 repeat: !!row.is_repeat,
                 targets: row.targets,
-                time_of_day:row.time_of_day,
-                description: row.description
+                time_of_day: row.time_of_day,
+                description: toRich(row.description)
             })
         })
 
@@ -140,6 +145,7 @@ class TaskEdit extends Component {
 
     render() {
         const {data, visible} = this.state;
+
         return (
             <div>
                 <Space style={{marginBottom: 10}}>
@@ -149,6 +155,7 @@ class TaskEdit extends Component {
                 </Space>
                 <Table dataSource={data} columns={this.columns}/>
                 <Modal
+                    width={800}
                     title="任务编辑"
                     visible={visible}
                     onCancel={() => {
@@ -189,7 +196,7 @@ class TaskEdit extends Component {
                             //     },
                             // ]}
                         >
-                            <Switch />
+                            <Switch/>
                         </Form.Item>
                         <Form.Item
                             name="time_of_day"
@@ -219,7 +226,8 @@ class TaskEdit extends Component {
                             label="描述"
 
                         >
-                            <Input/>
+                            <RichText/>
+                            {/*<Input.TextArea autoSize={{minRows: 10}}/>*/}
                         </Form.Item>
                     </Form>
                 </Modal>

@@ -25,6 +25,9 @@ const api = {
     },
     taskUpdateStatus(data){
         return axios.post(`${host}/task/updateStatus`, data)
+    },
+    taskUpdateProgress(data){
+        return axios.post(`${host}/task/updateProgress`, data)
     }
 }
 export default api;

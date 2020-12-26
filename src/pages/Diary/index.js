@@ -32,9 +32,10 @@ class Diary extends Component {
                     dataSource={data}
                     renderItem={item => (
                         <div style={{
-                            padding: 10,
+                            padding:'0 10px',
                             backgroundColor: '#ffffff',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            marginBottom:10
                         }}>
                             <List.Item>
                                 <List.Item.Meta
@@ -45,7 +46,7 @@ class Diary extends Component {
                                                 className={classnames('diary_item')}>
                                                 <div
                                                     className={classnames('diary_item_name', `diary_item_level_${i.level}`)}>{i.name}</div>
-                                                <div className="diary_item_text">{i.diaryText}</div>
+                                                <div className="diary_item_text" dangerouslySetInnerHTML={{__html:i.diaryText}} />
                                             </div>)}
                                         </div>
                                     }

@@ -131,7 +131,7 @@ class Program extends Component {
         this.formRef.current.validateFields().then(values => {
             const {current} = this.state;
             if (current.id) {
-                Api.update({...current}, ...values).then(res => {
+                Api.update({...current, ...values}).then(res => {
                     this.query()
                     this.setState({
                         visible: false
