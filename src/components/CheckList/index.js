@@ -45,7 +45,7 @@ class CheckList extends Component {
                 return
             }
         }
-        Api.taskUpdateStatus({recordId: row.id,isRepeat:row.is_repeat}).then(res => {
+        Api.taskUpdateStatus({recordId: row.id, isRepeat: row.is_repeat}).then(res => {
             onRefresh()
         })
     }
@@ -55,11 +55,15 @@ class CheckList extends Component {
         current.diaryText = getHtml(current.diaryText)
         if (current.diaryId) {
             DiaryApi.update({id: current.diaryId, data: current.diaryText}).then(res => {
-
+                this.setState({
+                    visible: false
+                })
             })
         } else {
             DiaryApi.add({taskId: current.id, data: current.diaryText}).then(res => {
-
+                this.setState({
+                    visible: false
+                })
             })
         }
     }
@@ -108,7 +112,7 @@ class CheckList extends Component {
                              className={classnames(
                                  'check_list_body',
                                  {'gray': !!item.status}
-                                 )}>
+                             )}>
                             <div style={{width: 400}}>
                                 <Checkbox checked={!!item.status} onChange={(e) => {
                                     this.handleStatusChange(e, item)
@@ -136,7 +140,9 @@ class CheckList extends Component {
                             </div>}
                             {type !== 1 && <div>{item.time_of_day || 0} 分钟</div>}
                             {type === 1 &&
-                            <div className={classnames({'danger': type===1&&moment(item.start_time).isBefore(moment(new Date()))})} style={{width: 200}}>{moment(item.start_time).format('YYYY-MM-DD')}</div>}
+                            <div
+                                className={classnames({'danger': type === 1 && moment(item.start_time).isBefore(moment(new Date()))})}
+                                style={{width: 200}}>{moment(item.start_time).format('YYYY-MM-DD')}</div>}
                             <div>
                                 <a onClick={() => {
                                     this.handleOpenRecord(item)
@@ -182,6 +188,8 @@ class CheckList extends Component {
                     <div style={
                         {
                             width: 600,
+                            height: 600,
+                            overflow: 'auto',
                             borderRadius: 10,
                             padding: 10,
                             margin: '50px auto auto auto',

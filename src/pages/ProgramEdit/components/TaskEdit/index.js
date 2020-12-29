@@ -46,7 +46,7 @@ class TaskEdit extends Component {
             title: '描述',
             dataIndex: 'description',
             render:(value,row)=>{
-                return <div dangerouslySetInnerHTML={{__html:value}} />
+                return <div style={{maxHeight:100,overflow:'auto'}} dangerouslySetInnerHTML={{__html:value}} />
             }
         },
         {

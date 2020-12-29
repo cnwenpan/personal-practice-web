@@ -141,13 +141,13 @@ class ProgramEdit extends Component {
         const {data, currentLandMark} = this.state;
         return (
             <div className="edit_container">
-                <div className="edit_left">
+                <div >
                     <Card>
                         {data.length === 0 && <div onClick={this.handleAddMask}><PlusCircleOutlined/>新增里程碑</div>}
                         {data.length > 0 && <TimeLine data={data} afterSlot={this.renderLandmask}/>}
                     </Card>
                 </div>
-                <div className="edit_right">
+                <div style={{marginTop:10}}>
                     <Card>
                         {currentLandMark && <TaskEdit landMark={currentLandMark} onSuccess={this.queryLandMasks}/>}
                     </Card>

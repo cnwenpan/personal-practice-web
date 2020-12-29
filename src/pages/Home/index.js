@@ -88,7 +88,9 @@ class Home extends Component {
                         type={1} onRefresh={this.queryTodayTasks}/>
                 </Card>
                 <Card style={{marginTop: 10}}>
-                    <div style={{marginBottom: 10, color: '#345753'}}>
+                    <div style={{
+                        marginBottom: 10,
+                        color: '#345753'}}>
 
                         <span style={{marginRight: 20}}>已完成的项目任务</span>
                         {programs.map(item => (<CheckableTag
